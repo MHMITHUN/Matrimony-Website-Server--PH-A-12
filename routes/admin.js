@@ -69,6 +69,47 @@ router.patch('/users/:id/make-premium', verifyToken, verifyAdmin, async (req, re
     }
 });
 
+// Remove user premium
+router.patch('/users/:id/remove-premium', verifyToken, verifyAdmin, async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        user.isPremium = false;
+        user.premiumRequestStatus = null;
+        await user.save();
+
+        // Also update biodata premium status
+        await Biodata.findOneAndUpdate(
+            { userEmail: user.email },
+            { isPremium: false, premiumRequestStatus: null }
+        );
+
+        res.json({ message: 'User premium removed', user });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+});
+
+// Get approved premium members (history)
+router.get('/approved-premium-history', verifyToken, verifyAdmin, async (req, res) => {
+    try {
+        const approvedPremium = await Biodata.find({
+            isPremium: true,
+            premiumRequestStatus: 'approved'
+        })
+            .select('biodataId name userEmail age occupation permanentDivision createdAt updatedAt')
+            .sort({ updatedAt: -1 });
+
+        res.json(approvedPremium);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+});
+
 // Get premium requests
 router.get('/premium-requests', verifyToken, verifyAdmin, async (req, res) => {
     try {

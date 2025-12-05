@@ -41,6 +41,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/contact-messages', require('./routes/contactMessage'));
 
 // Root route
 app.get('/', (req, res) => {

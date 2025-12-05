@@ -22,8 +22,8 @@ router.get('/stats', async (req, res) => {
             User.countDocuments({ isPremium: true }),
             ContactRequest.countDocuments(),
             SuccessStory.countDocuments(),
-            Biodata.countDocuments({ biodataType: 'male' }),
-            Biodata.countDocuments({ biodataType: 'female' })
+            Biodata.countDocuments({ biodataType: 'Male' }),
+            Biodata.countDocuments({ biodataType: 'Female' })
         ]);
 
         // Calculate success rate (marriages / total contact requests * 100)
