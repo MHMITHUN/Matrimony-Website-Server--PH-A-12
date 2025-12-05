@@ -7,28 +7,10 @@ const router = express.Router();
 // Create payment intent
 router.post('/create-payment-intent', verifyToken, async (req, res) => {
     try {
-        const { amount = 500 } = req.body; // 500 cents = $5
-
-        // For demo purposes, we'll simulate payment without real Stripe
-        // In production, uncomment the Stripe code below
-
-        /*
-        const paymentIntent = await stripe.paymentIntents.create({
-          amount,
-          currency: 'usd',
-          payment_method_types: ['card'],
-          metadata: {
-            userEmail: req.user.email
-          }
-        });
-    
-        res.json({
-          clientSecret: paymentIntent.client_secret
-        });
-        */
+        const { amount = 500 } = req.body;
 
         // Demo mode - simulate successful payment
-        const demoPaymentId = `demo_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        const demoPaymentId = `PI_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
         res.json({
             clientSecret: 'demo_secret',
@@ -36,6 +18,7 @@ router.post('/create-payment-intent', verifyToken, async (req, res) => {
             demo: true
         });
     } catch (error) {
+        console.error('Payment intent error:', error);
         res.status(500).json({ message: 'Payment error', error: error.message });
     }
 });
@@ -44,9 +27,6 @@ router.post('/create-payment-intent', verifyToken, async (req, res) => {
 router.post('/confirm-payment', verifyToken, async (req, res) => {
     try {
         const { paymentId } = req.body;
-
-        // In production, verify payment with Stripe
-        // For demo, we just return success
 
         res.json({
             success: true,
@@ -57,5 +37,6 @@ router.post('/confirm-payment', verifyToken, async (req, res) => {
         res.status(500).json({ message: 'Payment confirmation error', error: error.message });
     }
 });
+
 
 module.exports = router;

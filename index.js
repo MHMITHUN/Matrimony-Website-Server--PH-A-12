@@ -13,6 +13,7 @@ const successStoryRoutes = require('./routes/successStory');
 const adminRoutes = require('./routes/admin');
 const paymentRoutes = require('./routes/payment');
 const statsRoutes = require('./routes/stats');
+const analyticsRoutes = require('./routes/analytics');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -39,10 +40,11 @@ app.use('/api/success-stories', successStoryRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/stats', statsRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 // Root route
 app.get('/', (req, res) => {
-  res.json({ 
+  res.json({
     message: 'Islamic Matrimony API Server',
     status: 'Running',
     version: '1.0.0'
