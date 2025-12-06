@@ -239,6 +239,38 @@ GET    /api/admin/biodatas/pending  - Get pending biodatas
 
 ---
 
+## 🔑 Admin Access
+
+### Test Admin API Endpoints
+
+To test admin-protected endpoints, you can use these credentials:
+
+**Admin Login Credentials:**
+- **Email:** `admin@islamicmatrimony.com`
+- **Password:** `Admin@123`
+
+**How to Test:**
+1. Login using the admin credentials via `/api/auth/login`
+2. Copy the JWT token from the response
+3. Include the token in the Authorization header for admin endpoints:
+   ```
+   Authorization: Bearer <your_jwt_token>
+   ```
+
+**Admin-Only Endpoints You Can Test:**
+- `GET /api/admin/stats` - Dashboard statistics
+- `GET /api/admin/analytics` - Detailed analytics
+- `PATCH /api/biodatas/:id/approve` - Approve biodatas
+- `PATCH /api/users/:id/role` - Update user roles
+- `GET /api/payments` - View all payments
+- `PATCH /api/stories/:id/review` - Review success stories
+
+✨ **All admin functionalities are available for testing!**
+
+⚠️ **Note:** These are demo credentials for evaluation purposes only.
+
+---
+
 ## 🗄️ Database Schema
 
 ### User Schema
